@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% load latexify %}
+{% latexify context_arg %}
+{% latexify context_arg parse_math=True %}
+{% block content %}
+  {% autoescape off %}
+    <div class="column is-3">
+    </div>
+    <div class="column is-half">
+    <article class="is-half has-text-justified">
+      {{ article_content }}
+    </article>
+    </div>
+    <div class="column is-3">
+    </div>
+  {% endautoescape %}
+{% endblock %}
