@@ -2,16 +2,34 @@
 {% load latexify %}
 {% latexify context_arg %}
 {% latexify context_arg parse_math=True %}
+{% load static %}
 {% block content %}
-  {% autoescape off %}
-    <div class="column is-3">
+  <section class="py-5">
+    <div class="container px-5 my-5">
+      <div class="row gx-5">
+        <div class="col-lg-3">
+          <div class="d-flex align-items-center mt-lg-5 mb-4">
+            <img class="img-fluid rounded-circle" src="https://dummyimage.com/50x50/ced4da/6c757d.jpg" alt="..."/>
+            <div class="ms-3">
+              <div class="fw-bold">Valerie Luna</div>
+              <div class="text-muted">News, Business</div>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-9">
+          <article>
+            <header class="mb-4">
+              <h1 class="fw-bolder mb-1">Základní myšlenka DSGE modelů</h1>
+              <a class="badge bg-secondary text-decoration-none link-light" href="#!">Web Design</a>
+              <a class="badge bg-secondary text-decoration-none link-light" href="#!">Freebies</a>
+            </header>
+            <figure class="mb-4"><img src="{% static 'img/economy.jpg' %}"/></figure>
+            <section class="mb-5">
+              {{ object.content_html | safe }}
+            </section>
+          </article>
+        </div>
+      </div>
     </div>
-    <div class="column is-half">
-    <article class="is-half has-text-justified">
-      {{ article_content }}
-    </article>
-    </div>
-    <div class="column is-3">
-    </div>
-  {% endautoescape %}
+  </section>
 {% endblock %}
