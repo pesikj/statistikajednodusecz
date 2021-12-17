@@ -7,5 +7,5 @@ from . import views
 
 urlpatterns = [
     path('', views.IndexView.as_view(), name='index'),
-    path('<str:slug>', views.ArticleView.as_view(), name='article'),
+    path('article/<slug:slug>', views.ArticleView.as_view(), name='article'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
