@@ -7,27 +7,46 @@
   <section class="py-5">
     <div class="container px-5 my-5">
       <div class="row gx-5">
-        <div class="col-lg-3">
-          <div class="d-flex align-items-center mt-lg-5 mb-4">
-            <img class="img-fluid rounded-circle" src="https://dummyimage.com/50x50/ced4da/6c757d.jpg" alt="..."/>
-            <div class="ms-3">
-              <div class="fw-bold">Valerie Luna</div>
-              <div class="text-muted">News, Business</div>
-            </div>
-          </div>
-        </div>
         <div class="col-lg-9">
           <article>
             <header class="mb-4">
-              <h1 class="fw-bolder mb-1">Základní myšlenka DSGE modelů</h1>
-              <a class="badge bg-secondary text-decoration-none link-light" href="#!">Web Design</a>
-              <a class="badge bg-secondary text-decoration-none link-light" href="#!">Freebies</a>
+              <h1 class="fw-bolder mb-1">{{ object.title }}</h1>
+{#              <a class="badge bg-secondary text-decoration-none link-light" href="#!">Web Design</a>#}
             </header>
-            <figure class="mb-4"><img src="{% static 'img/economy.jpg' %}"/></figure>
+{#            <figure class="mb-4"><img src="{% static 'img/economy.jpg' %}"/></figure>#}
             <section class="mb-5">
               {{ object.content_html | safe }}
             </section>
           </article>
+        </div>
+        <div class="col-lg-3">
+          <div class="d-flex align-items-center mt-lg-5 mb-4">
+            <ul class="nav flex-column">
+              {% for link in object.header_links %}
+                <li class="nav-item">
+                  <a href="#{{ link.0 }}" class="nav-link">
+                    {{ link.1 }}
+                  </a>
+                </li>
+              {% endfor %}
+            </ul>
+          </div>
+          <h6>Články v této sekci</h6>
+          <div class="d-flex align-items-center mb-4">
+            <ul class="nav flex-column">
+              {% for article in object.section.article_set.all %}
+                <li class="nav-item">
+                {% if article.id == object.id %}
+                  <div style="padding-left: 1rem">{{ article.title }}</div>
+                {% else %}
+                  <a href="{% url 'article' article.slug %}" class="nav-link">
+                    {{ article.title }}
+                  </a>
+                {% endif %}
+                </li>
+              {% endfor %}
+            </ul>
+          </div>
         </div>
       </div>
     </div>
