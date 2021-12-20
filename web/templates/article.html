@@ -13,7 +13,7 @@
               <h1 class="fw-bolder mb-1">{{ object.title }}</h1>
 {#              <a class="badge bg-secondary text-decoration-none link-light" href="#!">Web Design</a>#}
             </header>
-            <figure class="mb-4"><img src="{% static 'img/economy.jpg' %}"/></figure>
+{#            <figure class="mb-4"><img src="{% static 'img/economy.jpg' %}"/></figure>#}
             <section class="mb-5">
               {{ object.content_html | safe }}
             </section>
@@ -27,6 +27,22 @@
                   <a href="#{{ link.0 }}" class="nav-link">
                     {{ link.1 }}
                   </a>
+                </li>
+              {% endfor %}
+            </ul>
+          </div>
+          <h6>Články v této sekci</h6>
+          <div class="d-flex align-items-center mb-4">
+            <ul class="nav flex-column">
+              {% for article in object.section.article_set.all %}
+                <li class="nav-item">
+                {% if article.id == object.id %}
+                  <div style="padding-left: 1rem">{{ article.title }}</div>
+                {% else %}
+                  <a href="{% url 'article' article.slug %}" class="nav-link">
+                    {{ article.title }}
+                  </a>
+                {% endif %}
                 </li>
               {% endfor %}
             </ul>

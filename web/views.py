@@ -11,7 +11,3 @@ class ArticleView(DetailView):
     template_name = "article.html"
     model = models.Article
 
-    def get_object(self):
-        obj = models.Article.objects.first()
-        return obj
-
