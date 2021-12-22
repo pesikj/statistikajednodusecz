@@ -1,8 +1,10 @@
 import re
 
 from django.db import models
+from django.urls import reverse
 from markdown2 import Markdown
 from bs4 import BeautifulSoup
+from django.conf import settings
 
 
 regex_latex = re.compile(r"\[latex\][\S ]*?\[\/latex\]")
@@ -19,6 +21,7 @@ class Article(models.Model):
     title = models.CharField(max_length=200)
     section = models.ForeignKey(Section, on_delete=models.CASCADE, null=True)
     order = models.IntegerField()
+    file_name = models.CharField(max_length=200)
     equation_dict: dict
 
     def _get_soup(self):
@@ -40,15 +43,25 @@ class Article(models.Model):
             content = content.replace(f"!equation{equation_id}!", f"\\({equation}\\)")
         return content
 
-    @staticmethod
-    def _process_links(soup):
+    def _process_links(self, soup):
         link_list = []
-        for h2 in soup.find_all('h2'):
+        for h2 in soup.find_all("h2"):
             h2_content = h2.contents[0]
             h2_content_decoded = h2_content.encode("ascii", "ignore").decode('utf-8')
             h2_id = h2_content_decoded.lower().replace(" ", "-")
             h2.attrs["id"] = h2_id
             link_list.append([h2_id, h2_content])
+        for a in soup.find_all("a"):
+            link_target: str = a.attrs["href"]
+            if link_target[-2:] == "md":
+                link_target_file = link_target[link_target.rfind("/") + 1:]
+                articles_query = Article.objects.filter(file_name=link_target_file)
+                if articles_query.count() > 0:
+                    linked_article: Article = articles_query.first()
+                    a.attrs["href"] = reverse("article", args=(linked_article.slug,))
+            elif link_target[-4:] in ("xlsx", ):
+                link_target_file = link_target[link_target.rfind("/")+1:]
+                a.attrs["href"] = f"{settings.MEDIA_URL}{self.slug}/{link_target_file}"
         return soup, link_list
 
     @staticmethod
@@ -80,8 +93,15 @@ class Article(models.Model):
         return link_list
 
 
-class Image(models.Model):
-    image_file = models.ImageField()
+class Attachment(models.Model):
     article = models.ForeignKey(Article, on_delete=models.CASCADE)
     original_filename = models.CharField(max_length=200)
     relative_path = models.CharField(max_length=200)
+
+
+class Image(Attachment):
+    image_file = models.ImageField()
+
+
+class DataAttachment(Attachment):
+    file = models.FileField()

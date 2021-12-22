@@ -20,7 +20,8 @@
           </article>
         </div>
         <div class="col-lg-3">
-          <div class="d-flex align-items-center mt-lg-5 mb-4">
+          <h6>Obsah článku</h6>
+          <div class="d-flex align-items-center mb-4">
             <ul class="nav flex-column">
               {% for link in object.header_links %}
                 <li class="nav-item">
@@ -37,7 +38,7 @@
               {% for article in object.section.article_set.all %}
                 <li class="nav-item">
                 {% if article.id == object.id %}
-                  <div style="padding-left: 1rem">{{ article.title }}</div>
+                  <div style="padding-left: 1rem; padding-top: 8px; padding-bottom: 8px;">{{ article.title }}</div>
                 {% else %}
                   <a href="{% url 'article' article.slug %}" class="nav-link">
                     {{ article.title }}

@@ -13,7 +13,6 @@
               Bootstrap, the world’s most popular front-end open source toolkit!</p>
             <div class="d-grid gap-3 d-sm-flex justify-content-sm-center justify-content-xl-start">
               <a class="btn btn-primary btn-lg px-4 me-sm-3" href="#features">Přehled článků</a>
-              <a class="btn btn-outline-light btn-lg px-4" href="#!">Úvod do statistiky</a>
             </div>
           </div>
         </div>
@@ -38,15 +37,19 @@
               <div class="feature bg-primary bg-gradient text-white rounded-3 mb-3"><i
                       class="bi bi-question-square"></i></div>
               <h2 class="h5">Úvod do testování hypotéz</h2>
-              <p class="mb-0">Paragraph of text beneath the heading to explain the heading. Here is just a bit more
-                text.</p>
+              <p class="mb-0">
+                Základní princip statistických testů je vysvětlen na příkladě
+                <a href="{% url 'article' 'z-test' %}">z-testu</a>, můžete si zde přečíst i o
+                <a href="{% url 'article' 'chyby-pri-testovani' %}">chybách při testování</a>.
+              </p>
             </div>
             <div class="col mb-5 mb-md-0 h-100">
               <div class="feature bg-primary bg-gradient text-white rounded-3 mb-3"><i class="bi bi-toggle2-on"></i>
               </div>
               <h2 class="h5">Jednovýběrové testy</h2>
-              <p class="mb-0">Paragraph of text beneath the heading to explain the heading. Here is just a bit more
-                text.</p>
+              <p class="mb-0">
+
+              </p>
             </div>
             <div class="col mb-5 h-100">
               <div class="feature bg-primary bg-gradient text-white rounded-3 mb-3"><i class="bi bi-toggles2"></i></div>
@@ -57,8 +60,11 @@
             <div class="col h-100">
               <div class="feature bg-primary bg-gradient text-white rounded-3 mb-3"><i class="bi bi-currency-dollar"></i></div>
               <h2 class="h5">DSGE modely</h2>
-              <p class="mb-0">Texty o <a href="{% url 'article' 'metodologie-moderni-ekonomie' %}"> metodologii moderní ekonomie</a>
-              a <a href="{% url 'article' 'zakladni-myslenka-dsge' %}">DSGE modelech</a>.</p>
+              <p class="mb-0">V této části webu najdete články o
+                <a href="{% url 'article' 'metodologie-moderni-ekonomie' %}"> metodologii moderní ekonomie</a>,
+                <a href="{% url 'article' 'zakladni-myslenka-dsge' %}">DSGE modelech</a> a
+                <a href="{% url 'article' 'lucasova-kritika' %}">Lucasově kritice</a>.
+              </p>
             </div>
           </div>
         </div>
@@ -70,13 +76,13 @@
       <div class="row gx-5 justify-content-center">
         <div class="col-lg-10 col-xl-7">
           <div class="text-center">
-            <div class="fs-4 mb-4 fst-italic">"Working with Start Bootstrap templates has saved me tons of development
-              time when building new projects! Starting with a Bootstrap template just makes things easier!"
+            <div class="fs-4 mb-4 fst-italic">"The rising reliance on data and the need for high-level analysis in many
+              industries means that statistics majors are increasingly in demand in every sector."
             </div>
             <div class="d-flex align-items-center justify-content-center">
               <img class="rounded-circle me-3" src="https://dummyimage.com/40x40/ced4da/6c757d" alt="..."/>
               <div class="fw-bold">
-                Tom Ato
+                Indeed Editorial Team
                 <span class="fw-bold text-primary mx-1">/</span>
                 CEO, Pomodoro
               </div>
@@ -86,7 +92,7 @@
       </div>
     </div>
   </div>
-  <!-- Blog preview section-->
+
   <section class="py-5">
     <div class="container px-5 my-5">
       <div class="row gx-5 justify-content-center">
