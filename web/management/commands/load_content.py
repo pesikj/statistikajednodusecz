@@ -1,9 +1,9 @@
-from django.core.management.base import BaseCommand, CommandError
+from django.core.management.base import BaseCommand
 from django.db.models import Q
 from django.conf import settings
 
 
-from web.models import Article, Section, Image
+from web.models import Article, Section, Image, Attachment, DataAttachment
 import json
 import os
 from shutil import copyfile
@@ -39,6 +39,7 @@ class Command(BaseCommand):
                         article_obj = article_query.first()
                     else:
                         article_obj = Article(slug=article["slug"], section=section_obj)
+                    article_obj.file_name = article["file_name"]
                     article_obj.order = section_order
                     with open(f"{TEXT_ROOT}content/{article['file_name']}", encoding="utf-8") as content_file:
                         article_obj.content = content_file.read()
@@ -50,11 +51,16 @@ class Command(BaseCommand):
                         for filename in os.listdir(f"{TEXT_ROOT}content/media/{article['slug']}"):
                             copy_to = f"{settings.MEDIA_ROOT}{article['slug']}/{filename}"
                             copyfile(f"{image_folder_dir}/{filename}", copy_to)
-                            image_obj = Image(article=article_obj, image_file=copy_to)
-                            image_obj.image_file.name = f"{article['slug']}/{filename}"
-                            image_obj.original_filename = filename
-                            image_obj.relative_path = f"media/{article['slug']}/{filename}"
-                            image_obj.save()
+                            if filename.lower()[-3:] in ("jpg", "png"):
+                                attachment_obj = Image(article=article_obj, image_file=copy_to)
+                                attachment_obj.image_file.name = f"{article['slug']}/{filename}"
+                            else:
+                                attachment_obj = DataAttachment(article=article_obj, file=copy_to)
+                                attachment_obj.file.name = f"{article['slug']}/{filename}"
+                            attachment_obj: Attachment
+                            attachment_obj.original_filename = filename
+                            attachment_obj.relative_path = f"media/{article['slug']}/{filename}"
+                            attachment_obj.save()
                     article_obj.title = article["title"]
                     article_obj.save()
                     section_order += 1
