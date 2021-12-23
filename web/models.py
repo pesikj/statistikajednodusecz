@@ -6,6 +6,7 @@ from bs4 import BeautifulSoup
 
 
 regex_latex = re.compile(r"\[latex\][\S ]*?\[\/latex\]")
+regex_latex_2 = re.compile(r"\$[\S ]*?\$")
 
 
 class Section(models.Model):
@@ -60,6 +61,12 @@ class Article(models.Model):
             equation_dict[equation_id] = regex_latex_result\
                 .replace("[latex]", "")\
                 .replace("[/latex]", "")
+            content = content.replace(regex_latex_result, f"!equation{equation_id}!")
+            equation_id += 1
+        regex_latex_results = regex_latex_2.findall(content)
+        for regex_latex_result in regex_latex_results:
+            equation_dict[equation_id] = regex_latex_result\
+                .replace("$", "")
             content = content.replace(regex_latex_result, f"!equation{equation_id}!")
             equation_id += 1
         return content, equation_dict
