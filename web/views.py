@@ -11,3 +11,8 @@ class ArticleView(DetailView):
     template_name = "article.html"
     model = models.Article
 
+
+class SectionView(DetailView):
+    template_name = "section.html"
+    model = models.Section
+

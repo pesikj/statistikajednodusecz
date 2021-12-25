@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% load latexify %}
+{% latexify context_arg %}
+{% latexify context_arg parse_math=True %}
+{% load static %}
+{% block content %}
+  <section class="py-5">
+    <div class="container px-5 my-5">
+      <div class="row gx-5">
+        <div class="col-lg-9">
+          <h1 class="fw-bolder mb-1">{{ object.title }}</h1>
+          {% for article in object.article_set.all %}
+            <div>
+              <a href="{% url 'article' article.slug %}" style="color: black;">
+                <h3>
+                  {{ article.title }}
+                </h3>
+              </a>
+            </div>
+            <p>
+              {{ article.content_preview | safe }}
+            </p>
+          {% endfor %}
+        </div>
+        <div class="col-lg-3">
+          <h6>Další sekce</h6>
+          <div class="d-flex align-items-center mb-4">
+            <ul class="nav flex-column">
+
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+{% endblock %}
