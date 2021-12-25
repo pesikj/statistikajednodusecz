@@ -29,37 +29,44 @@
           <div class="row gx-5 row-cols-1 row-cols-md-2">
             <div class="col mb-5 h-100">
               <div class="feature bg-primary bg-gradient text-white rounded-3 mb-3"><i class="bi bi-book"></i></div>
-              <h2 class="h5">Úvod do statistiky</h2>
-              <p class="mb-0">Paragraph of text beneath the heading to explain the heading. Here is just a bit more
-                text.</p>
-            </div>
-            <div class="col mb-5 h-100">
-              <div class="feature bg-primary bg-gradient text-white rounded-3 mb-3"><i
-                      class="bi bi-question-square"></i></div>
-              <h2 class="h5">Úvod do testování hypotéz</h2>
-              <p class="mb-0">
-                Základní princip statistických testů je vysvětlen na příkladě
-                <a href="{% url 'article' 'z-test' %}">z-testu</a>, můžete si zde přečíst i o
-                <a href="{% url 'article' 'chyby-pri-testovani' %}">chybách při testování</a>.
-              </p>
-            </div>
-            <div class="col mb-5 mb-md-0 h-100">
-              <div class="feature bg-primary bg-gradient text-white rounded-3 mb-3"><i class="bi bi-toggle2-on"></i>
-              </div>
-              <h2 class="h5">Jednovýběrové testy</h2>
+              <h2 class="h5"><a href="{% url 'section' 'uvod' %}">Úvod do statistiky</a></h2>
               <p class="mb-0">
 
               </p>
             </div>
             <div class="col mb-5 h-100">
+              <div class="feature bg-primary bg-gradient text-white rounded-3 mb-3"><i
+                      class="bi bi-question-square"></i></div>
+              <h2 class="h5"><a href="{% url 'section' 'testovani-hypotez' %}">Úvod do testování hypotéz</a></h2>
+              <p class="mb-0">
+                Základní princip statistických testů je vysvětlen na příkladě
+                <a href="{% url 'article' 'z-test' %}">z-testu</a>,
+                můžete si zde přečíst i o
+                <a href="{% url 'article' 'chyby-pri-testovani' %}">chybách při testování</a>.
+              </p>
+            </div>
+            <div class="col mb-5 h-100">
+              <div class="feature bg-primary bg-gradient text-white rounded-3 mb-3"><i class="bi bi-toggle2-on"></i>
+              </div>
+              <h2 class="h5"><a href="{% url 'section' 'jednovyberove-testy' %}">Jednovýběrové testy</a></h2>
+              <p class="mb-0">
+                Můžete si přečíst články o testech na střední hodnotu
+                (<a href="{% url 'article' 'z-test' %}">z-test</a>,
+                <a href="{% url 'article' 't-test' %}">t-test</a>)
+                a o
+                <a href="{% url 'article' 'chi-kvadrat-test-rozptyl' %}">testu na rozptyl</a>.
+              </p>
+            </div>
+            <div class="col mb-5 h-100">
               <div class="feature bg-primary bg-gradient text-white rounded-3 mb-3"><i class="bi bi-toggles2"></i></div>
               <h2 class="h5">Dvouvýběrové testy</h2>
-              <p class="mb-0">Paragraph of text beneath the heading to explain the heading. Here is just a bit more
-                text.</p>
+              <p class="mb-0">
+
+              </p>
             </div>
             <div class="col h-100">
               <div class="feature bg-primary bg-gradient text-white rounded-3 mb-3"><i class="bi bi-currency-dollar"></i></div>
-              <h2 class="h5">DSGE modely</h2>
+              <h2 class="h5"><a href="{% url 'section' 'dsge-modely' %}">DSGE modely</a></h2>
               <p class="mb-0">V této části webu najdete články o
                 <a href="{% url 'article' 'metodologie-moderni-ekonomie' %}"> metodologii moderní ekonomie</a>,
                 <a href="{% url 'article' 'zakladni-myslenka-dsge' %}">DSGE modelech</a> a

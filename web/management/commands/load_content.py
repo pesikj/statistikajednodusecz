@@ -27,7 +27,7 @@ class Command(BaseCommand):
                 section_query = Section.objects.filter(slug=section["section_slug"])
                 if len(section_query) == 1:
                     section_obj = section_query.first()
-                    section_obj.title = title=["section_title"]
+                    section_obj.title = section["section_title"]
                     section_obj.save()
                 else:
                     section_obj = Section(slug=section["section_slug"], title=["section_title"])

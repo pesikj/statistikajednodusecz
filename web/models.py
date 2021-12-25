@@ -25,6 +25,12 @@ class Article(models.Model):
     file_name = models.CharField(max_length=200)
     equation_dict: dict
 
+    @property
+    def content_preview(self):
+        content_soup = self._content_soup
+        first_paragraph = content_soup.find_all("p")[0]
+        return str(first_paragraph)
+
     def _get_soup(self):
         content, self.equation_dict = self._process_latex(self.content)
         markdowner = Markdown()
@@ -33,13 +39,17 @@ class Article(models.Model):
         return soup
 
     @property
-    def content_html(self):
+    def _content_soup(self):
         soup = self._get_soup()
-        for paragraph in soup.find_all('p'):
-            paragraph["class"] = "fs-5 mb-4"
+        # for paragraph in soup.find_all('p'):
+            # paragraph["class"] = "fs-5 mb-4"
         soup, _ = self._process_links(soup)
         soup = self._process_image_links(soup)
-        content = str(soup)
+        return soup
+
+    @property
+    def content_html(self):
+        content = str(self._content_soup)
         for equation_id, equation in self.equation_dict.items():
             content = content.replace(f"!equation{equation_id}!", f"\\({equation}\\)")
         return content
