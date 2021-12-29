@@ -117,7 +117,7 @@ class Attachment(models.Model):
 
 
 class Image(Attachment):
-    image_file = models.ImageField()
+    image_file = models.FileField()
 
 
 class DataAttachment(Attachment):

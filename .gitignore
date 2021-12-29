@@ -2,3 +2,5 @@
 /texts/
 /statistikajednodusecz/.env
 /media/
+/.env.prod
+/.env.prod.db
