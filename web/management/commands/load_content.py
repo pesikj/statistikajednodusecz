@@ -9,7 +9,7 @@ import os
 from shutil import copyfile
 
 
-TEXT_ROOT = "texts/statistikajednodusecztexty/"
+TEXT_ROOT = "texts/"
 
 class Command(BaseCommand):
     help = 'Closes the specified poll for voting'
@@ -46,10 +46,10 @@ class Command(BaseCommand):
                     image_folder_dir = f"{TEXT_ROOT}content/media/{article['slug']}/"
                     article_obj.save()
                     if os.path.isdir(image_folder_dir):
-                        if not os.path.isdir(f"{settings.MEDIA_ROOT}{article['slug']}"):
-                            os.mkdir(f"{settings.MEDIA_ROOT}{article['slug']}")
+                        if not os.path.isdir(f"{settings.MEDIA_ROOT}/{article['slug']}"):
+                            os.mkdir(f"{settings.MEDIA_ROOT}/{article['slug']}")
                         for filename in os.listdir(f"{TEXT_ROOT}content/media/{article['slug']}"):
-                            copy_to = f"{settings.MEDIA_ROOT}{article['slug']}/{filename}"
+                            copy_to = f"{settings.MEDIA_ROOT}/{article['slug']}/{filename}"
                             copyfile(f"{image_folder_dir}/{filename}", copy_to)
                             if filename.lower()[-3:] in ("jpg", "png"):
                                 attachment_obj = Image(article=article_obj, image_file=copy_to)
