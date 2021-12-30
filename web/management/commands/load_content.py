@@ -14,9 +14,6 @@ TEXT_ROOT = "texts/"
 class Command(BaseCommand):
     help = 'Closes the specified poll for voting'
 
-    # def add_arguments(self, parser):
-    #     parser.add_argument('poll_ids', nargs='+', type=int)
-
     def handle(self, *args, **options):
         with open(f"{TEXT_ROOT}content_structure.json", encoding="utf-8") as file:
             content_structure = json.load(file)
@@ -30,7 +27,7 @@ class Command(BaseCommand):
                     section_obj.title = section["section_title"]
                     section_obj.save()
                 else:
-                    section_obj = Section(slug=section["section_slug"], title=["section_title"])
+                    section_obj = Section(slug=section["section_slug"], title=section["section_title"])
                     section_obj.save()
                 article_list = section["section_articles"]
                 for article in article_list:
@@ -52,11 +49,19 @@ class Command(BaseCommand):
                             copy_to = f"{settings.MEDIA_ROOT}/{article['slug']}/{filename}"
                             copyfile(f"{image_folder_dir}/{filename}", copy_to)
                             if filename.lower()[-3:] in ("jpg", "png"):
-                                attachment_obj = Image(article=article_obj, image_file=copy_to)
-                                attachment_obj.image_file.name = f"{article['slug']}/{filename}"
+                                image_query = Image.objects.filter(article=article_obj, image_file=copy_to)
+                                if image_query.count() == 1:
+                                    attachment_obj = image_query.first()
+                                else:
+                                    attachment_obj = Image(article=article_obj, image_file=copy_to)
+                                    attachment_obj.image_file.name = f"{article['slug']}/{filename}"
                             else:
-                                attachment_obj = DataAttachment(article=article_obj, file=copy_to)
-                                attachment_obj.file.name = f"{article['slug']}/{filename}"
+                                data_attachment_query = DataAttachment.objects.filter(article=article_obj, file=copy_to)
+                                if data_attachment_query.count() == 1:
+                                    attachment_obj = data_attachment_query.first()
+                                else:
+                                    attachment_obj = DataAttachment(article=article_obj, file=copy_to)
+                                    attachment_obj.file.name = f"{article['slug']}/{filename}"
                             attachment_obj: Attachment
                             attachment_obj.original_filename = filename
                             attachment_obj.relative_path = f"media/{article['slug']}/{filename}"

@@ -2,6 +2,7 @@ import re
 
 from django.db import models
 from django.urls import reverse
+from django.utils.functional import cached_property
 from markdown2 import Markdown
 from bs4 import BeautifulSoup
 from django.conf import settings
@@ -25,7 +26,7 @@ class Article(models.Model):
     file_name = models.CharField(max_length=200)
     equation_dict: dict
 
-    @property
+    @cached_property
     def content_preview(self):
         content_soup = self._content_soup
         first_paragraph = content_soup.find_all("p")[0]
@@ -47,7 +48,7 @@ class Article(models.Model):
         soup = self._process_image_links(soup)
         return soup
 
-    @property
+    @cached_property
     def content_html(self):
         content = str(self._content_soup)
         for equation_id, equation in self.equation_dict.items():
