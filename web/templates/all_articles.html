@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% load latexify %}
+{% latexify context_arg %}
+{% latexify context_arg parse_math=True %}
+{% load static %}
+{% block content %}
+  <section class="py-5">
+    <div class="container px-5 my-5">
+      <div class="row gx-5">
+        <div class="col-lg-9">
+        {% for section in object_list %}
+          <a href="{% url 'section' section.slug %}" style="color: black;">
+            <h2 class="fw-bolder mb-3">{{ section.title }}</h2>
+          </a>
+          {% for article in section.article_set.all %}
+            {% include "partials/article_link.html" with article=article %}
+          {% endfor %}
+        {% endfor %}
+        </div>
+      </div>
+    </div>
+  </section>
+{% endblock %}

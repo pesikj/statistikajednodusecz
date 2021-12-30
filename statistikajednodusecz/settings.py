@@ -27,9 +27,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = env("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.environ.get("DEBUG", True)
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["statistikajednoduse.cz", "new.statistikajednoduse.cz", "www.statistikajednoduse.cz", "localhost"]
 
 
 # Application definition
@@ -122,6 +122,13 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
+
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.memcached.PyMemcacheCache',
+        'LOCATION': 'unix:/tmp/memcached.sock',
+    }
+}
 
 
 # Static files (CSS, JavaScript, Images)
