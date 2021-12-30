@@ -12,6 +12,9 @@ WORKDIR /usr/src/app
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
+# create the app user
+RUN addgroup -S app && adduser -S app -G app
+
 # install psycopg2 dependencies
 RUN apk update && apk add postgresql-dev gcc python3-dev musl-dev
 
@@ -59,6 +62,8 @@ COPY --chown=app:app . $APP_HOME
 RUN apk add git
 RUN mkdir texts
 RUN git clone https://github.com/pesikj/statistikajednodusecz-texty.git texts
+
+RUN chmod 755 entrypoint.prod.sh
 
 # change to the app user
 USER app
