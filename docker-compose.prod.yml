@@ -1,4 +1,4 @@
-version: '3.8'
+version: '3.3'
 
 services:
   web:
@@ -27,7 +27,7 @@ services:
       - static_volume:/home/app/web/staticfiles
       - media_volume:/home/app/web/media
     ports:
-      - 1337:80
+      - 80:80
     depends_on:
       - web
 
