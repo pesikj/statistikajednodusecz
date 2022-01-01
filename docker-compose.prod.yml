@@ -22,6 +22,7 @@ services:
     env_file:
       - ./.env.prod.db
   nginx-proxy:
+    container_name: nginx-proxy
     build: ./nginx
     volumes:
       - static_volume:/home/app/web/staticfiles
