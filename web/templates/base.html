@@ -15,7 +15,20 @@
   <link href="{% static 'css/statistika_jednoduse.css' %}" rel="stylesheet"/>
   {% include 'latexify/stylesheets.html' %}
   <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-153169092-1"></script>
+  <script>
+      window.dataLayer = window.dataLayer || [];
+
+      function gtag() {
+          dataLayer.push(arguments);
+      }
+
+      gtag('js', new Date());
+
+      gtag('config', 'UA-153169092-1');
+  </script>
 </head>
 <body class="d-flex flex-column h-100">
 <main class="flex-shrink-0">

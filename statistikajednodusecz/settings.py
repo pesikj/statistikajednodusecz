@@ -29,8 +29,7 @@ SECRET_KEY = env("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get("DEBUG", True)
 
-ALLOWED_HOSTS = ["statistikajednoduse.cz", "new.statistikajednoduse.cz", "www.statistikajednoduse.cz", "localhost", "89.221.219.204"]
-
+ALLOWED_HOSTS = ["statistikajednoduse.cz", "v2.statistikajednoduse.cz", "www.statistikajednoduse.cz", "localhost", "89.221.219.204"]
 
 # Application definition
 
