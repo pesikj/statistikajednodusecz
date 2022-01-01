@@ -59,11 +59,13 @@ RUN chmod +x  $APP_HOME/entrypoint.prod.sh
 # copy project
 COPY --chown=app:app . $APP_HOME
 
+RUN chown -R app:app $APP_HOME
+
 RUN apk add git
 RUN mkdir texts
 RUN git clone https://github.com/pesikj/statistikajednodusecz-texty.git texts
 
-RUN chmod 755 entrypoint.prod.sh
+RUN chmod +x entrypoint.prod.sh
 
 # change to the app user
 USER app
