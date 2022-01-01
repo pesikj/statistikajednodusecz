@@ -28,10 +28,27 @@ services:
       - media_volume:/home/app/web/media
     ports:
       - 80:80
+      - 443:443
     depends_on:
       - web
+  nginx-proxy-letsencrypt:
+    image: jrcs/letsencrypt-nginx-proxy-companion
+    env_file:
+      - ./.env.staging.proxy-companion
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - certs:/etc/nginx/certs
+      - html:/usr/share/nginx/html
+      - vhost:/etc/nginx/vhost.d
+      - acme:/etc/acme.sh
+    depends_on:
+      - nginx-proxy
 
 volumes:
   postgres_data:
   static_volume:
   media_volume:
+  certs:
+  html:
+  vhost:
+  acme:
