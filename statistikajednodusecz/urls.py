@@ -17,10 +17,20 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
+from django.contrib.sitemaps import GenericSitemap
+from django.contrib.sitemaps.views import sitemap
+from web import models
+
+info_dict = {
+    'queryset': models.Article.objects.all(),
+    'date_field': 'last_modification',
+}
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include("web.urls")),
+    path('sitemap.xml', sitemap, {'sitemaps': {'article': GenericSitemap(info_dict, priority=0.6)}},
+         name='django.contrib.sitemaps.views.sitemap')
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) \
               + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
