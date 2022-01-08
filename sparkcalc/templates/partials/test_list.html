@@ -1,0 +1,36 @@
+<p class="fw-bold">Můžete použít jeden z následujících testů:</p>
+<div id="available_tests">
+<div class="form-check mb-2">
+  <input class="form-check-input" type="radio" name="sample_no" id="id_rad_measure_mean" value="mean"/>
+  <label class="form-check-label" for="id_rad_measure_mean">
+    průměr
+  </label>
+</div>
+</div>
+
+<script>
+  const available_tests = document.getElementById("available_tests");
+  const tests = ["z-test"];
+  for (const test of tests) {
+      const form_element = document.createElement("div");
+      form_element.className = "form-check mb-2";
+
+      const input = document.createElement("input");
+      input.className = "form-check-input";
+      input.type = "radio";
+      input.name = test;
+      input.id = `id_rad_test_${test}`;
+      input.value = test;
+
+      const label = document.createElement("label");
+      label.className = "form-check-label";
+      label.setAttribute("for", `id_rad_test_${test}`);
+
+      const test_name = document.createTextNode(test);
+
+      label.appendChild(test_name);
+      form_element.appendChild(input);
+      form_element.appendChild(label);
+      available_tests.appendChild(form_element);
+  }
+</script>

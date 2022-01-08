@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% load latexify %}
+{% latexify context_arg %}
+{% latexify context_arg parse_math=True %}
+{% load static %}
+{% block content %}
+  <div class="container">
+    <h4 class="fw-bold text-center">On-line výpočet</h4>
+    <form class="bg-white px-4" method="POST">
+      <div class="row">
+        <div class="col">
+          <div id="div_sample_no">
+            {% include "partials/sample_no.html" %}
+          </div>
+          <div id="div_sample_no">
+            {% include "partials/measure.html" %}
+          </div>
+          <div>
+            {% include "partials/test_list.html" %}
+          </div>
+        </div>
+        <div class="col">
+          <div class="row">
+            <div class="col-lg-3">
+              <label for="data_1" class="form-label">Data</label>
+              <textarea class="form-control" id="data_1" rows="30"></textarea>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <button type="button" class="btn btn-primary">Submit</button>
+      </div>
+    </form>
+  </div>
+{% endblock %}
