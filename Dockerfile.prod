@@ -67,6 +67,8 @@ RUN mkdir staticfiles
 RUN mkdir media
 RUN git clone https://github.com/pesikj/statistikajednodusecz-texty.git texts
 
+RUN chown -R app:app $APP_HOME
+
 RUN chmod +x entrypoint.prod.sh
 
 # change to the app user
