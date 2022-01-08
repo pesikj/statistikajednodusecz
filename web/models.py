@@ -25,6 +25,7 @@ class Article(models.Model):
     order = models.IntegerField()
     file_name = models.CharField(max_length=200)
     equation_dict: dict
+    last_modification = models.DateField(auto_now=True)
 
     @cached_property
     def content_preview(self):
@@ -109,6 +110,9 @@ class Article(models.Model):
         soup = self._get_soup()
         _, link_list = self._process_links(soup)
         return link_list
+
+    def get_absolute_url(self):
+        return f"/article/{self.slug}"
 
 
 class Attachment(models.Model):
