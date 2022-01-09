@@ -7,6 +7,7 @@
   <div class="container">
     <h4 class="fw-bold text-center">On-line výpočet</h4>
     <form class="bg-white px-4" method="POST">
+      {% csrf_token %}
       <div class="row">
         <div class="col">
           <div id="div_sample_no">
@@ -18,18 +19,21 @@
           <div>
             {% include "partials/test_list.html" %}
           </div>
+          <div class="mt-3 mb-3">
+            <button type="submit" class="btn btn-primary">Spusť výpočet</button>
+          </div>
+          {% if results %}
+            {% include "partials/results.html" %}
+          {% endif %}
         </div>
         <div class="col">
           <div class="row">
             <div class="col-lg-3">
               <label for="data_1" class="form-label">Data</label>
-              <textarea class="form-control" id="data_1" rows="30"></textarea>
+              <textarea class="form-control" id="data_1" rows="30" name="data_1"></textarea>
             </div>
           </div>
         </div>
-      </div>
-      <div>
-        <button type="button" class="btn btn-primary">Submit</button>
       </div>
     </form>
   </div>

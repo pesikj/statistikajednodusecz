@@ -8,4 +8,5 @@ from . import views
 urlpatterns = [
     path('', views.CalcView.as_view(), name='calc'),
     path('test-list', views.TestList.as_view(), name='test_list'),
+    path('test-params/<str:slug>', views.TestParamList.as_view(), name='test_param_list'),
 ]

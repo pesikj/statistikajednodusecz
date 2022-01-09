@@ -2,29 +2,98 @@
 <div id="available_tests">
 </div>
 
+<p class="fw-bold">Doplňte parametry testu:</p>
+<div class="row" id="test_parameters">
+{#  <div class="col-lg-4">#}
+{#    <label for="exampleFormControlInput1" class="form-label">Střední hodnota</label>#}
+{#    <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="0">#}
+{#  </div>#}
+  {#    <div class="col-lg-4">#}
+  {#      <label for="exampleFormControlInput2" class="form-label">Typ alternativní hypotézy</label>#}
+  {#      <select class="form-select" aria-label="Default select example" id="exampleFormControlInput2">#}
+  {#        <option selected="selected" value="neq">není rovno</option>#}
+  {#        <option value="lt">menší než</option>#}
+  {#        <option value="gt">větší než</option>#}
+  {#      </select>#}
+  {#    </div>#}
+</div>
+
 <script>
-  const available_tests = document.getElementById("available_tests");
-  const tests = ["z-test"];
-  for (const test of tests) {
-      const form_element = document.createElement("div");
-      form_element.className = "form-check mb-2";
+    const col_class = "col-lg-6";
 
-      const input = document.createElement("input");
-      input.className = "form-check-input";
-      input.type = "radio";
-      input.name = test;
-      input.id = `id_rad_test_${test}`;
-      input.value = test;
+    const add_test_param_field = (parameter_obj, test_parameters) => {
+        const div_el = document.createElement("div");
+        div_el.className = col_class;
+        const label_el = document.createElement("label");
+        label_el.className = "form-label";
+        label_el.appendChild(document.createTextNode(parameter_obj["label"]));
+        div_el.appendChild(label_el);
 
-      const label = document.createElement("label");
-      label.className = "form-check-label";
-      label.setAttribute("for", `id_rad_test_${test}`);
+        if (parameter_obj["type"] === "alternative") {
+            const select_el = document.createElement("select");
+            select_el.className = "form-select";
 
-      const test_name = document.createTextNode(test);
+            const text_list = [["neq", "není rovno"], ["lt", "menší než"], ["gt", "větší než"]];
+            for (const option of text_list) {
+                const option_el = document.createElement("option");
+                option_el.appendChild(document.createTextNode(option[1]));
+                option_el.value = option[0];
+                select_el.appendChild(option_el);
+            }
+            div_el.appendChild(select_el);
 
-      label.appendChild(test_name);
-      form_element.appendChild(input);
-      form_element.appendChild(label);
-      available_tests.appendChild(form_element);
-  }
+        } else if (parameter_obj["type"] === "float") {
+            const input_el = document.createElement("input");
+            input_el.className = "form-control";
+            input_el.placeholder = "0";
+            div_el.appendChild(input_el);
+        }
+        test_parameters.appendChild(div_el);
+    }
+
+    const add_test_param_fields = (data, test_parameters) => {
+        for (const parameter of data["test_parameters"]) {
+            add_test_param_field(parameter, test_parameters);
+        }
+    }
+
+    const request_parameters_list = (test_slug, test_parameters) => {
+        console.log("selected");
+        fetch(`http{% if request.is_secure %}s{% endif %}://{{ request.get_host }}/spark-calc/test-params/${test_slug}`)
+            .then(response => response.json())
+            .then(data => add_test_param_fields(data, test_parameters))
+    }
+
+    const available_tests = document.getElementById("available_tests");
+    const test_parameters = document.getElementById("test_parameters");
+    let selected_test = "";
+    const tests = ["z-test"];
+    for (const test of tests) {
+        const form_element = document.createElement("div");
+        form_element.className = "form-check mb-2";
+
+        const input = document.createElement("input");
+        input.className = "form-check-input";
+        input.type = "radio";
+        input.name = "test";
+        input.id = `id_rad_test_${test}`;
+        input.value = test;
+        input.addEventListener("click", () => {
+            if (selected_test != input.value) {
+                request_parameters_list(input.value, test_parameters);
+            }
+            selected_test = input.value;
+        });
+
+        const label = document.createElement("label");
+        label.className = "form-check-label";
+        label.setAttribute("for", `id_rad_test_${test}`);
+
+        const test_name = document.createTextNode(test);
+
+        label.appendChild(test_name);
+        form_element.appendChild(input);
+        form_element.appendChild(label);
+        available_tests.appendChild(form_element);
+    }
 </script>
