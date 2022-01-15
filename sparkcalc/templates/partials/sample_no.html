@@ -11,3 +11,23 @@
     2
   </label>
 </div>
+
+<script>
+
+    let request_parameters = {};
+
+    const dispatch_test_params_change = (radio_button) => {
+        const event_change_test_params = new CustomEvent('event_change_test_params');
+        event_change_test_params.changed_parameter = radio_button.name;
+        event_change_test_params.new_value = radio_button.value;
+        document.dispatchEvent(event_change_test_params);
+    }
+
+    const sample_no_radio_buttons = document.getElementsByName("sample_no");
+    for (const radio_button of sample_no_radio_buttons) {
+        radio_button.addEventListener("click", () => {
+            console.log(`Changed number of samples to ${radio_button.value}`);
+            dispatch_test_params_change(radio_button);
+        })
+    }
+</script>

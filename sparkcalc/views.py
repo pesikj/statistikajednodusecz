@@ -39,8 +39,13 @@ class CalcView(View):
 
 class TestList(View):
     def get(self, request):
-        response = [{"name": test["name"]} for test in calc.TEST_LIST]
-        response = {"test_list": response}
+        test_list = [test for test in calc.TEST_LIST]
+        get_parameters = request.GET
+        if "sample_no" in get_parameters and get_parameters["sample_no"].isdecimal():
+            test_list = [test for test in test_list if test["sample_no"] == int(get_parameters["sample_no"])]
+        if "measure" in get_parameters:
+            test_list = [test for test in test_list if test["measure"] == get_parameters["measure"]]
+        response = {"test_list": test_list}
         return JsonResponse(response)
 
 

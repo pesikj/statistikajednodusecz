@@ -4,18 +4,6 @@
 
 <p class="fw-bold">Doplňte parametry testu:</p>
 <div class="row" id="test_parameters">
-{#  <div class="col-lg-4">#}
-{#    <label for="exampleFormControlInput1" class="form-label">Střední hodnota</label>#}
-{#    <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="0">#}
-{#  </div>#}
-  {#    <div class="col-lg-4">#}
-  {#      <label for="exampleFormControlInput2" class="form-label">Typ alternativní hypotézy</label>#}
-  {#      <select class="form-select" aria-label="Default select example" id="exampleFormControlInput2">#}
-  {#        <option selected="selected" value="neq">není rovno</option>#}
-  {#        <option value="lt">menší než</option>#}
-  {#        <option value="gt">větší než</option>#}
-  {#      </select>#}
-  {#    </div>#}
 </div>
 
 <script>
@@ -67,33 +55,68 @@
     const available_tests = document.getElementById("available_tests");
     const test_parameters = document.getElementById("test_parameters");
     let selected_test = "";
-    const tests = ["z-test"];
-    for (const test of tests) {
-        const form_element = document.createElement("div");
-        form_element.className = "form-check mb-2";
 
-        const input = document.createElement("input");
-        input.className = "form-check-input";
-        input.type = "radio";
-        input.name = "test";
-        input.id = `id_rad_test_${test}`;
-        input.value = test;
-        input.addEventListener("click", () => {
-            if (selected_test != input.value) {
-                request_parameters_list(input.value, test_parameters);
-            }
-            selected_test = input.value;
-        });
+    const add_test_list = (data) => {
+        for (const child of available_tests.childNodes) {
+            available_tests.removeChild(child);
+        }
+        for (const test of data["test_list"]) {
+            const form_element = document.createElement("div");
+            form_element.className = "form-check mb-2";
 
-        const label = document.createElement("label");
-        label.className = "form-check-label";
-        label.setAttribute("for", `id_rad_test_${test}`);
+            const input = document.createElement("input");
+            input.className = "form-check-input";
+            input.type = "radio";
+            input.name = "test";
+            input.id = `id_rad_test_${test['slug']}`;
+            input.value = test["slug"];
+            input.addEventListener("click", () => {
+                if (selected_test != input.value) {
+                    request_parameters_list(input.value, test_parameters);
+                }
+                selected_test = input.value;
+            });
 
-        const test_name = document.createTextNode(test);
+            const label = document.createElement("label");
+            label.className = "form-check-label";
+            label.setAttribute("for", `id_rad_test_${test}`);
 
-        label.appendChild(test_name);
-        form_element.appendChild(input);
-        form_element.appendChild(label);
-        available_tests.appendChild(form_element);
+            const test_name = document.createTextNode(test["name"]);
+
+            label.appendChild(test_name);
+            form_element.appendChild(input);
+            form_element.appendChild(label);
+            available_tests.appendChild(form_element);
+        }
+    };
+
+    const request_test_list_init = () => {
+        fetch('{% url "test_list" %}')
+            .then(response => response.json())
+            .then(data => add_test_list(data))
     }
+
+    const update_request_parameters = (changed_parameter, new_value) => {
+        if (changed_parameter === "sample_no") {
+            request_parameters.sample_no = new_value;
+        } else if (changed_parameter === "measure") {
+            request_parameters.measure = new_value;
+        }
+    }
+
+    const request_test_list = (changed_parameters) => {
+        let request_url = new URL(`http{% if request.is_secure %}s{% endif %}://{{ request.get_host }}/spark-calc/test-list`);
+        update_request_parameters(changed_parameters.changed_parameter, changed_parameters.new_value);
+        if (request_parameters.sample_no) {
+            request_url.searchParams.append("sample_no", request_parameters.sample_no);
+        }
+        if (request_parameters.measure) {
+            request_url.searchParams.append("measure", request_parameters.measure);
+        }
+        fetch(String(request_url))
+            .then(response => response.json())
+            .then(data => add_test_list(data))
+    }
+    request_test_list_init();
+    document.addEventListener("event_change_test_params", request_test_list);
 </script>
