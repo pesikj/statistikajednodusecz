@@ -20,6 +20,7 @@
         if (parameter_obj["type"] === "alternative") {
             const select_el = document.createElement("select");
             select_el.className = "form-select";
+            select_el.name = `param_${parameter_obj["id"]}`;
 
             const text_list = [["neq", "není rovno"], ["lt", "menší než"], ["gt", "větší než"]];
             for (const option of text_list) {
@@ -34,6 +35,7 @@
             const input_el = document.createElement("input");
             input_el.className = "form-control";
             input_el.placeholder = "0";
+            input_el.name = `param_${parameter_obj["id"]}`;
             div_el.appendChild(input_el);
         }
         test_parameters.appendChild(div_el);

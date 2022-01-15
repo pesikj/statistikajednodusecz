@@ -4,6 +4,7 @@ from django.shortcuts import render
 from django.views import View
 
 from . import calc
+from .calc import TEST_PARAMS
 
 
 class CalcView(View):
@@ -13,8 +14,12 @@ class CalcView(View):
         return render(request, self.template_name)
 
     def post(self, request):
-        form_data = request.POST
+        form_data = request.POST.copy()
         error_dict = {}
+        if "test" in form_data:
+            test_slug = form_data["test"]
+        else:
+            error_dict["test"] = "Je třeba vybrat statistický test."
         if "data_1" in form_data:
             data_1 = form_data["data_1"].replace(",", ".").replace("\r", "").split("\n")
             data_1 = list(filter(lambda x: x.isnumeric(), data_1))
@@ -24,14 +29,17 @@ class CalcView(View):
                 data = data_1
             else:
                 error_dict["data_1"] = "Je zadáno příliš málo číselných dat."
-        if "test" in form_data:
-            test_slug = form_data["test"]
-        else:
-            error_dict["test"] = "Je třeba vybrat statistický test."
+        test_parameters = {}
+        for param in TEST_PARAMS[test_slug]:
+            if f"param_{param['id']}" in form_data:
+                if param["type"] == "float":
+                    test_parameters[param['id']] = float(form_data[f"param_{param['id']}"])
+                elif param["type"] in ("str", "alternative"):
+                    test_parameters[param['id']] = form_data[f"param_{param['id']}"]
         if len(error_dict) == 0:
-            calc_obj = calc.Calc(data, test_slug)
-            stat, pvalue = calc_obj.perform_test()
-            results = {"stat": stat, "pvalue": pvalue}
+            calc_obj = calc.Calc(data, test_slug, test_parameters)
+            stat, pvalue, pvalue_plot = calc_obj.perform_test()
+            results = {"stat": stat, "pvalue": pvalue, "pvalue_plot": pvalue_plot}
             return render(request, self.template_name, {"results":  results})
         else:
             return render(request, self.template_name)
