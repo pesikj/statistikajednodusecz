@@ -1,0 +1,33 @@
+<p class="fw-bold">Kolik náhodných výběrů máte?</p>
+<div class="form-check mb-2">
+  <input class="form-check-input" type="radio" name="sample_no" id="id_rad_sample_no_1" value="1"/>
+  <label class="form-check-label" for="id_rad_sample_no_1">
+    1
+  </label>
+</div>
+<div class="form-check mb-2">
+  <input class="form-check-input" type="radio" name="sample_no" id="id_rad_sample_no_2" value="2"/>
+  <label class="form-check-label" for="id_rad_sample_no_2">
+    2
+  </label>
+</div>
+
+<script>
+
+    let request_parameters = {};
+
+    const dispatch_test_params_change = (radio_button) => {
+        const event_change_test_params = new CustomEvent('event_change_test_params');
+        event_change_test_params.changed_parameter = radio_button.name;
+        event_change_test_params.new_value = radio_button.value;
+        document.dispatchEvent(event_change_test_params);
+    }
+
+    const sample_no_radio_buttons = document.getElementsByName("sample_no");
+    for (const radio_button of sample_no_radio_buttons) {
+        radio_button.addEventListener("click", () => {
+            console.log(`Changed number of samples to ${radio_button.value}`);
+            dispatch_test_params_change(radio_button);
+        })
+    }
+</script>

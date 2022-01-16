@@ -1,0 +1,23 @@
+<p class="fw-bold">S jakým statistickým ukazatelem chcete pracovat?</p>
+<div class="form-check mb-2">
+  <input class="form-check-input" type="radio" name="measure" id="id_rad_measure_mean" value="mean_value" />
+  <label class="form-check-label" for="id_rad_measure_mean">
+    průměr
+  </label>
+</div>
+<div class="form-check mb-2">
+  <input class="form-check-input" type="radio" name="measure" id="id_rad_measure_var" value="var" />
+  <label class="form-check-label" for="id_rad_measure_var">
+    rozptyl
+  </label>
+</div>
+
+<script>
+    const measure_radio_buttons = document.getElementsByName("measure");
+    for (const radio_button of measure_radio_buttons) {
+        radio_button.addEventListener("click", () => {
+            console.log(`Changed measure to ${radio_button.value}`);
+            dispatch_test_params_change(radio_button);
+        })
+    }
+</script>
