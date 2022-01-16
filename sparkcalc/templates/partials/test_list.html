@@ -8,6 +8,11 @@
 
 <script>
     const col_class = "col-lg-6";
+    const param_values = {
+        {% for id, value in param_data.items %}
+            {{ id }}: '{{ value }}' {% if not forloop.last %},{% endif %}
+        {% endfor %}
+    }
 
     const add_test_param_field = (parameter_obj, test_parameters) => {
         const div_el = document.createElement("div");
@@ -34,7 +39,11 @@
         } else if (parameter_obj["type"] === "float") {
             const input_el = document.createElement("input");
             input_el.className = "form-control";
-            input_el.placeholder = "0";
+            if (param_values[`param_${parameter_obj["id"]}`]) {
+                input_el.value = param_values[`param_${parameter_obj["id"]}`];
+            } else {
+                input_el.placeholder = "0";
+            }
             input_el.name = `param_${parameter_obj["id"]}`;
             div_el.appendChild(input_el);
         }
@@ -72,8 +81,14 @@
             input.name = "test";
             input.id = `id_rad_test_${test['slug']}`;
             input.value = test["slug"];
+            {% if input_data.test %}
+                if (test["slug"] === "{{ input_data.test }}") {
+                    input.checked = true;
+                    selected_test = input.value;
+                }
+            {% endif %}
             input.addEventListener("click", () => {
-                if (selected_test != input.value) {
+                if (selected_test !== input.value) {
                     request_parameters_list(input.value, test_parameters);
                 }
                 selected_test = input.value;
@@ -89,6 +104,9 @@
             form_element.appendChild(input);
             form_element.appendChild(label);
             available_tests.appendChild(form_element);
+            if (input.checked) {
+                request_parameters_list(input.value, test_parameters);
+            }
         }
     };
 

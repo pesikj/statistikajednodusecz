@@ -6,6 +6,8 @@
     <p class="card-text">Statistika testu je <strong>{{ results.stat }}.</strong></p>
     <p class="card-text">p-hodnota testu je <strong>{{ results.pvalue }}.</strong></p>
     <p class="card-text"><i>Nulovou hypotézu zamítáme na hladinách významnosti nižších než {{ results.pvalue }}.</i></p>
-    <img src='data:image/png;base64,{{ results.pvalue_plot }}'>
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#result_modal">
+      Zobrazit graf p-hodnoty
+    </button>
   </div>
 </div>

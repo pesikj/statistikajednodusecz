@@ -1,19 +1,19 @@
 import base64
 import io
 from abc import ABC, abstractmethod
-from typing import Union
-import matplotlib.pyplot as plt
-import scipy.stats
-from scipy.stats import norm
-import numpy as np
-import matplotlib.patches as mpatches
-from colour import Color
-
-import pandas as pd
-from statsmodels.stats import weightstats
-import scipy.stats as stats
-
 from enum import Enum
+from typing import Union
+
+import matplotlib.patches as mpatches
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+import scipy.stats
+import scipy.stats as stats
+from colour import Color
+from scipy.stats import norm
+
+
 class Tail(Enum):
     TWO_TAILED = 1
     LEFT_TAILED = 2
@@ -22,6 +22,8 @@ class Tail(Enum):
 
 class StatisticalTest(ABC):
     data: pd.Series
+    tails: Tail
+    alpha: float
 
     @abstractmethod
     def perform_test(self):
@@ -30,26 +32,42 @@ class StatisticalTest(ABC):
     def __init__(self, data: Union[pd.Series, pd.DataFrame], test_parameters: dict):
         self.data = data
         self.test_parameters = test_parameters
+        if "alternative" in self.test_parameters:
+            if self.test_parameters["alternative"] == "lt":
+                self.tails = Tail.LEFT_TAILED
+            elif self.test_parameters["alternative"] == "gt":
+                self.tails = Tail.RIGHT_TAILED
+            else:
+                self.tails = Tail.TWO_TAILED
+        else:
+            self.tails = None
+        if "alpha" in self.test_parameters:
+            self.alpha = float(self.test_parameters["alpha"])
+        else:
+            self.alpha = None
 
     def create_p_value_plot(self):
         pass
 
 
 class ZTest(StatisticalTest):
-    def perform_test(self) -> (float, float):
+    def _perform_test(self) -> (float, float):
         x_bar = self.data.mean()
         mu = self.test_parameters["mean_value"]
         sigma = self.test_parameters["variance"]
-        stat = (x_bar - mu) / (sigma / self.data.shape[0])
-        if self.test_parameters["alternative"] == "lt":
-            pvalue = min(stats.norm.cdf(stat), 1 - stats.norm.cdf(stat)) * 2
-        elif self.test_parameters["alternative"] == "<":
-            pvalue = stats.norm.cdf(stat)
+        self.stat = (x_bar - mu) / (sigma / self.data.shape[0])
+        if self.tails == Tail.TWO_TAILED:
+            self.pvalue = min(stats.norm.cdf(self.stat), 1 - stats.norm.cdf(self.stat)) * 2
+        elif self.tails == Tail.LEFT_TAILED:
+            self.pvalue = stats.norm.cdf(self.stat)
         else:
-            pvalue = 1 - stats.norm.cdf(stat)
-        return stat, pvalue
+            self.pvalue = 1 - stats.norm.cdf(self.stat)
 
-    def create_critical_region_plot(self, alphas=(0.05, ), tails=Tail.TWO_TAILED, x_min=-3, y_max=0.5):
+    def perform_test(self) -> (float, float):
+        self._perform_test()
+        return self.stat, self.pvalue
+
+    def create_critical_region_plot(self, alphas=(0.05,), tails=Tail.TWO_TAILED, x_min=-3, y_max=0.5):
         alphas = sorted(alphas, reverse=True)
         x_max = x_min * (-1)
 
@@ -97,7 +115,12 @@ class ZTest(StatisticalTest):
         plt.savefig("z_test_critical_region.png")
         plt.show()
 
-    def create_p_value_plot(self, statistics=1, alpha=0.05, tails=Tail.TWO_TAILED, x_min=-3, y_max=0.5, lang='en'):
+    def create_p_value_plot(self):
+        self._perform_test()
+
+        x_min = - abs(self.stat) - 0.5
+        y_max = 0.5
+
         x_max = x_min * (-1)
         fig, ax = plt.subplots()
 
@@ -117,33 +140,37 @@ class ZTest(StatisticalTest):
 
             plt.fill_between(ptx, pty, facecolor=color, alpha=1.0, hatch=hatch, edgecolor=edgecolor)
 
-        if tails == Tail.TWO_TAILED:
-            generate_area(x_min, norm.ppf(alpha / 2), '#FF7F50')
-            generate_area(norm.ppf(1 - alpha / 2), x_max, '#FF7F50')
-            generate_area(x_min, -abs(statistics), 'none', hatch='//////', edgecolor='#5B84B1FF')
-            generate_area(abs(statistics), x_max, 'none', hatch='//////', edgecolor='#5B84B1FF')
-        elif tails == Tail.LEFT_TAILED:
-            generate_area(x_min, norm.ppf(alpha), '#FF7F50')
-            generate_area(x_min, statistics, 'none', hatch='//////', edgecolor='#5B84B1FF')
-        elif tails == Tail.RIGHT_TAILED:
-            generate_area(norm.ppf(1 - alpha), x_max, '#FF7F50')
-            generate_area(statistics, x_max, 'none', hatch='//////', edgecolor='#5B84B1FF')
+        if self.tails == Tail.TWO_TAILED:
+            generate_area(abs(self.stat), x_max, 'none', hatch='//////', edgecolor='#5B84B1FF')
+            generate_area(x_min, -abs(self.stat), 'none', hatch='//////', edgecolor='#5B84B1FF')
+        elif self.tails == Tail.LEFT_TAILED:
+            generate_area(x_min, self.stat, 'none', hatch='//////', edgecolor='#5B84B1FF')
+        elif self.tails == Tail.RIGHT_TAILED:
+            generate_area(self.stat, x_max, 'none', hatch='//////', edgecolor='#5B84B1FF')
+
+        if self.alpha:
+            if self.tails == Tail.TWO_TAILED:
+                generate_area(x_min, norm.ppf(self.alpha / 2), '#FF7F50')
+                generate_area(norm.ppf(1 - self.alpha / 2), x_max, '#FF7F50')
+            elif self.tails == Tail.LEFT_TAILED:
+                generate_area(x_min, norm.ppf(self.alpha), '#FF7F50')
+            elif self.tails == Tail.RIGHT_TAILED:
+                generate_area(norm.ppf(1 - self.alpha), x_max, '#FF7F50')
 
         plt.grid()
 
         plt.xlim(x_min, x_max)
         plt.ylim(0, y_max)
 
+        plt.annotate('Hodnota statistiky', xy=(self.stat, 0), xytext=(self.stat, y_max - 0.05),
+                     arrowprops=dict(facecolor='black'), horizontalalignment='center')
+
         legend_patches = []
-        if lang == 'en':
-            plt.title('p-value of z-test', fontsize=10)
-            legend_patches.append(mpatches.Patch(color='#FF7F50', label='Critical Region'.format(alpha)))
-            legend_patches.append(mpatches.Patch(color='#5B84B1FF', label='p-value'.format(alpha)))
-        elif lang == 'cs':
-            plt.title('p-hodnota z-testu', fontsize=10)
-            legend_patches.append(mpatches.Patch(color='#FF7F50', label='Kritický obor'.format(alpha)))
+        plt.title('p-hodnota z-testu', fontsize=10)
+        if self.alpha:
+            legend_patches.append(mpatches.Patch(color='#FF7F50', label='Kritický obor'.format(self.alpha)))
             legend_patches.append(mpatches.Patch(facecolor='none', hatch='//////', edgecolor='#5B84B1FF',
-                                                 label='p-hodnota'.format(alpha)))
+                                                 label='p-hodnota'))
         plt.legend(handles=legend_patches)
         plt.xlabel('x')
 
@@ -151,6 +178,9 @@ class ZTest(StatisticalTest):
         fig.savefig(flike)
         b64 = base64.b64encode(flike.getvalue()).decode()
         return b64
+
+    def __init__(self, data: Union[pd.Series, pd.DataFrame], test_parameters: dict):
+        super().__init__(data, test_parameters)
 
 
 TEST_LIST = [

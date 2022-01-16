@@ -16,31 +16,42 @@ class CalcView(View):
     def post(self, request):
         form_data = request.POST.copy()
         error_dict = {}
+        input_data = {}
+        param_data = {}
         if "test" in form_data:
             test_slug = form_data["test"]
+            input_data["test"] = form_data["test"]
         else:
             error_dict["test"] = "Je třeba vybrat statistický test."
-        if "data_1" in form_data:
-            data_1 = form_data["data_1"].replace(",", ".").replace("\r", "").split("\n")
-            data_1 = list(filter(lambda x: x.isnumeric(), data_1))
-            if len(data_1) > 1:
-                data_1 = [float(x) for x in data_1]
-                data_1 = pd.Series(data_1)
-                data = data_1
+        data_set_keys = filter(lambda x: "data_" in x, form_data.keys())
+        for key in data_set_keys:
+            input_data[key] = form_data[key]
+            data = form_data[key].replace(",", ".").replace("\r", "").split("\n")
+            data = list(filter(lambda x: x.isdecimal(), data))
+            if len(data) > 1:
+                data = [float(x) for x in data]
+                data = pd.Series(data)
+                data = data
             else:
-                error_dict["data_1"] = "Je zadáno příliš málo číselných dat."
+                error_dict[key] = "Je zadáno příliš málo číselných dat."
         test_parameters = {}
         for param in TEST_PARAMS[test_slug]:
-            if f"param_{param['id']}" in form_data:
+            data_key = f"param_{param['id']}"
+            if data_key in form_data:
+                param_data[data_key] = form_data[data_key]
                 if param["type"] == "float":
-                    test_parameters[param['id']] = float(form_data[f"param_{param['id']}"])
+                    if not form_data[data_key].isnumeric():
+                        error_dict[data_key] = "Parametr musí být číslo"
+                    else:
+                        test_parameters[param['id']] = float(form_data[data_key])
                 elif param["type"] in ("str", "alternative"):
-                    test_parameters[param['id']] = form_data[f"param_{param['id']}"]
+                    test_parameters[param['id']] = form_data[data_key]
         if len(error_dict) == 0:
             calc_obj = calc.Calc(data, test_slug, test_parameters)
             stat, pvalue, pvalue_plot = calc_obj.perform_test()
             results = {"stat": stat, "pvalue": pvalue, "pvalue_plot": pvalue_plot}
-            return render(request, self.template_name, {"results":  results})
+            return render(request, self.template_name, {"results":  results, "input_data": input_data,
+                                                        "param_data": param_data})
         else:
             return render(request, self.template_name)
 
