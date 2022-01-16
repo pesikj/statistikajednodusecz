@@ -3,7 +3,7 @@
 ###########
 
 # pull official base image
-FROM python:3.9.6-alpine as builder
+FROM ubuntu:20.04
 
 # set work directory
 WORKDIR /usr/src/app
@@ -11,45 +11,28 @@ WORKDIR /usr/src/app
 # set environment variables
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
+ENV DEBIAN_FRONTEND noninteractive
 
 # create the app user
-RUN addgroup -S app && adduser -S app -G app
+RUN useradd app
 
 # install psycopg2 dependencies
-RUN apk update && apk add postgresql-dev gcc python3-dev musl-dev py-pip
+RUN apt-get update && apt-get install -y python python3-pip netcat
 
 # lint
-RUN pip install --upgrade pip
 COPY --chown=app:app . .
 
 # install dependencies
 COPY ./requirements.txt .
-RUN pip wheel --no-cache-dir --no-deps --wheel-dir /usr/src/app/wheels -r requirements.txt
+RUN pip3 install -r requirements.txt
 
-#########
-# FINAL #
-#########
-
-# pull official base image
-FROM python:3.9.6-alpine
-
-# create directory for the app user
 RUN mkdir -p /home/app
-
-# create the app user
-RUN addgroup -S app && adduser -S app -G app
 
 # create the appropriate directories
 ENV HOME=/home/app
 ENV APP_HOME=/home/app/web
 RUN mkdir $APP_HOME
 WORKDIR $APP_HOME
-
-# install dependencies
-RUN apk update && apk add libpq
-COPY --chown=app:app --from=builder /usr/src/app/wheels /wheels
-COPY --chown=app:app --from=builder /usr/src/app/requirements.txt .
-RUN pip install --no-cache /wheels/*
 
 # copy entrypoint.prod.sh
 COPY --chown=app:app ./entrypoint.prod.sh .
@@ -61,7 +44,7 @@ COPY --chown=app:app . $APP_HOME
 
 RUN chown -R app:app $APP_HOME
 
-RUN apk add git
+RUN apt-get install -y git-all
 RUN mkdir texts
 RUN mkdir staticfiles
 RUN mkdir media
