@@ -28,10 +28,10 @@ info_dict = {
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include("web.urls")),
     path('spark-calc/', include("sparkcalc.urls")),
     path('sitemap.xml', sitemap, {'sitemaps': {'article': GenericSitemap(info_dict, priority=0.6)}},
-         name='django.contrib.sitemaps.views.sitemap')
+         name='django.contrib.sitemaps.views.sitemap'),
+    path('', include("web.urls")),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) \
               + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

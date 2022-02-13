@@ -9,9 +9,9 @@
 <script>
     const col_class = "col-lg-6";
     const param_values = {
-        {% for id, value in param_data.items %}
-            {{ id }}: '{{ value }}' {% if not forloop.last %},{% endif %}
-        {% endfor %}
+    {% for id, value in param_data.items %}
+        {{ id }}: '{{ value }}' {% if not forloop.last %},{% endif %}
+    {% endfor %}
     }
 
     const add_test_param_field = (parameter_obj, test_parameters) => {
@@ -21,6 +21,7 @@
         label_el.className = "form-label";
         label_el.appendChild(document.createTextNode(parameter_obj["label"]));
         div_el.appendChild(label_el);
+        div_el.dataset.parameter_id = parameter_obj["id"];
 
         if (parameter_obj["type"] === "alternative") {
             const select_el = document.createElement("select");
@@ -50,9 +51,25 @@
         test_parameters.appendChild(div_el);
     }
 
+    let current_parameter_list = [];
+
     const add_test_param_fields = (data, test_parameters) => {
+        let new_parameter_list = [];
         for (const parameter of data["test_parameters"]) {
-            add_test_param_field(parameter, test_parameters);
+            new_parameter_list.push(parameter["id"]);
+            if (!current_parameter_list.includes(parameter["id"])) {
+                add_test_param_field(parameter, test_parameters);
+                current_parameter_list.push(parameter["id"]);
+            }
+        }
+        for (const child of Array.from(test_parameters.children)) {
+            if (!new_parameter_list.includes(child.dataset.parameter_id)) {
+                test_parameters.removeChild(child);
+                const index = current_parameter_list.indexOf(child.dataset.parameter_id);
+                if (index !== -1) {
+                    current_parameter_list.splice(index, 1);
+                }
+            }
         }
     }
 
@@ -66,14 +83,30 @@
     const available_tests = document.getElementById("available_tests");
     const test_parameters = document.getElementById("test_parameters");
     let selected_test = "";
+    let current_test_list = []
 
     const add_test_list = (data) => {
-        for (const child of available_tests.childNodes) {
-            available_tests.removeChild(child);
+        let new_test_list = [];
+        for (const test of data["test_list"]) {
+            new_test_list.push(test['slug']);
+        }
+        for (const child of Array.from(available_tests.children)) {
+            if (!new_test_list.includes(child.dataset.test_slug)) {
+                available_tests.removeChild(child);
+                const index = current_test_list.indexOf(child.dataset.test_slug);
+                if (index !== -1) {
+                    current_test_list.splice(index, 1);
+                }
+            }
         }
         for (const test of data["test_list"]) {
+            if (current_test_list.includes(test["slug"])) {
+                continue;
+            }
+            current_test_list.push(test["slug"]);
             const form_element = document.createElement("div");
             form_element.className = "form-check mb-2";
+            form_element.dataset.test_slug = test['slug'];
 
             const input = document.createElement("input");
             input.className = "form-check-input";
@@ -125,7 +158,8 @@
     }
 
     const request_test_list = (changed_parameters) => {
-        let request_url = new URL(`http{% if request.is_secure %}s{% endif %}://{{ request.get_host }}/spark-calc/test-list`);
+        let request_url = new URL(`http{% if request.is_secure %}
+            s{% endif %}://{{ request.get_host }}/spark-calc/test-list`);
         update_request_parameters(changed_parameters.changed_parameter, changed_parameters.new_value);
         if (request_parameters.sample_no) {
             request_url.searchParams.append("sample_no", request_parameters.sample_no);
