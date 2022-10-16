@@ -17,7 +17,8 @@ ENV DEBIAN_FRONTEND noninteractive
 RUN useradd app
 
 # install psycopg2 dependencies
-RUN apt-get update && apt-get install -y python python3-pip netcat
+RUN apt-get update --fix-missing
+RUN apt-get install -y python python3-pip netcat
 
 # lint
 COPY --chown=app:app . .
