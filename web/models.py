@@ -35,7 +35,7 @@ class Article(models.Model):
 
     def _get_soup(self):
         content, self.equation_dict = self._process_latex(self.content)
-        markdowner = Markdown()
+        markdowner = Markdown(extras=["nl2br"])
         content = markdowner.convert(content)
         soup = BeautifulSoup(content, 'html.parser')
         return soup
@@ -72,7 +72,7 @@ class Article(models.Model):
                 if articles_query.count() > 0:
                     linked_article: Article = articles_query.first()
                     a.attrs["href"] = reverse("article", args=(linked_article.slug,))
-            elif link_target[-4:] in ("xlsx", ):
+            elif link_target[-4:] in ("xlsx", ".csv"):
                 link_target_file = link_target[link_target.rfind("/")+1:]
                 a.attrs["href"] = f"{settings.MEDIA_URL}{self.slug}/{link_target_file}"
         return soup, link_list
