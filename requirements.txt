@@ -8,8 +8,8 @@ pytz==2021.1
 soupsieve==2.3.1
 sqlparse==0.4.1
 psycopg2-binary==2.9.1
+pymemcache==4.0.0
 gunicorn==23.0.0
-pymemcache==3.5.0
 pandas==2.2.3
 scipy==1.14.1
 statsmodels==0.13.1
