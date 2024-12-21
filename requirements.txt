@@ -12,7 +12,7 @@ gunicorn==23.0.0
 pymemcache==3.5.0
 pandas==2.2.3
 scipy==1.14.1
-statsmodels==0.13.1
+statsmodels==0.14.4
 matplotlib==3.10.0
 numpy==2.2.0
 colour==0.1.5
