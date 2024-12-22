@@ -1,113 +1,65 @@
 {% extends "base.html" %}
 {% load static %}
 {% block content %}
-
-  <!-- Header-->
-  <header class="bg-dark py-5">
-    <div class="container px-5">
-      <div class="row gx-5 align-items-center justify-content-center">
-        <div class="col-lg-8 col-xl-7 col-xxl-6">
-          <div class="my-5 text-center text-xl-start">
-            <h1 class="display-5 fw-bolder text-white mb-2">Statistika jednoduše</h1>
-            <p class="lead fw-normal text-white-50 mb-4">
-              Web s články o testování statistických hypotéz a ekonomickém modelování
-            </p>
-            <div class="d-grid gap-3 d-sm-flex justify-content-sm-center justify-content-xl-start">
-              <a class="btn btn-primary btn-lg px-4 me-sm-3" href="#features">Přehled článků</a>
-            </div>
-          </div>
-        </div>
-        <div class="col-xl-5 col-xxl-6 d-none d-xl-block text-center"><img src="{% static 'img/title_page.png' %}"/>
-        </div>
-      </div>
-    </div>
+  <header class="hero">
+    <h1><a href="{% url 'index' %}">Statistika jednoduše</a></h1>
+    <p>Web s články o testování statistických hypotéz a ekonomickém modelování.</p>
+    <a href="{% url 'all_articles' %}" class="btn btn-light mt-3">Explore Articles</a>
   </header>
-  <!-- Features section-->
-  <section class="py-5" id="features">
-    <div class="container px-5 my-5">
-      <div class="row gx-5">
-        <div class="col-lg-12">
-          <div class="row gx-5 row-cols-1 row-cols-md-2">
-            <div class="col mb-5 h-100">
-              <div class="feature bg-primary bg-gradient text-white rounded-3 mb-3"><i class="bi bi-book"></i></div>
-              <h2 class="h5"><a href="{% url 'section' 'uvod' %}">Úvod do statistiky</a></h2>
-              <p class="mb-0">
-                Tato sekce zatím obsahuje pouze článek o
-                <a href="{% url 'article' 'rozptyl' %}">rozptylu</a>.
-              </p>
-            </div>
-            <div class="col mb-5 h-100">
-              <div class="feature bg-primary bg-gradient text-white rounded-3 mb-3"><i
-                      class="bi bi-question-square"></i></div>
-              <h2 class="h5"><a href="{% url 'section' 'testovani-hypotez' %}">Úvod do testování hypotéz</a></h2>
-              <p class="mb-0">
-                Základní princip statistických testů je vysvětlen na příkladě
-                <a href="{% url 'article' 'z-test' %}">z-testu</a>,
-                můžete si zde přečíst i o
-                <a href="{% url 'article' 'chyby-pri-testovani' %}">chybách při testování</a>.
-              </p>
-            </div>
-            <div class="col mb-5 h-100">
-              <div class="feature bg-primary bg-gradient text-white rounded-3 mb-3"><i class="bi bi-toggle2-on"></i>
-              </div>
-              <h2 class="h5"><a href="{% url 'section' 'jednovyberove-testy' %}">Jednovýběrové testy</a></h2>
-              <p class="mb-0">
-                Můžete si přečíst články o testech na střední hodnotu
-                (<a href="{% url 'article' 'z-test' %}">z-test</a>,
-                <a href="{% url 'article' 't-test' %}">t-test</a>)
-                a o
-                <a href="{% url 'article' 'chi-kvadrat-test-rozptyl' %}">testu na rozptyl</a>.
-              </p>
-            </div>
-            <div class="col mb-5 h-100">
-              <div class="feature bg-primary bg-gradient text-white rounded-3 mb-3"><i class="bi bi-toggles2"></i></div>
-              <h2 class="h5"><a href="{% url 'section' 'dvouvyberove-testy' %}">Dvouvýběrové testy</a></h2>
-              <p class="mb-0">
-                Zde jsou články o dvouvýběrových testech na střední hodnotu
-                (<a href="{% url 'article' 't-test-parovy' %}">párový t-test</a>,
-                <a href="{% url 'article' 't-test-dvouvyberovy' %}">dvouvýběrový t-test</a>,
-                <a href="{% url 'article' 'welchuv-test-dvouvyberovy' %}">Welchův t-test</a>).
-              </p>
-            </div>
-            <div class="col h-100">
-              <div class="feature bg-primary bg-gradient text-white rounded-3 mb-3"><i class="bi bi-currency-dollar"></i></div>
-              <h2 class="h5"><a href="{% url 'section' 'dsge-modely' %}">DSGE modely</a></h2>
-              <p class="mb-0">V této části webu najdete články o
-                <a href="{% url 'article' 'metodologie-moderni-ekonomie' %}"> metodologii moderní ekonomie</a>,
-                <a href="{% url 'article' 'zakladni-myslenka-dsge' %}">DSGE modelech</a> a
-                <a href="{% url 'article' 'lucasova-kritika' %}">Lucasově kritice</a>.
-              </p>
-            </div>
-            <div class="col h-100">
-              <div class="feature bg-primary bg-gradient text-white rounded-3 mb-3"><i class="bi bi-currency-dollar"></i></div>
-              <h2 class="h5"><a href="{% url 'section' 'statistika-python' %}">Statistika v Pythonu</a></h2>
-              <p class="mb-0">V této části webu najdete články o
-                <a href="{% url 'article' 'zakladni-ukazatele' %}">základních statistických ukazatelích v Pythonu</a>,
-                <a href="{% url 'article' 'hypotezy-regrese' %}">regresi a testování hypotéz</a>.
-                Před praktickým zkoušením je třeba provést <a href="{% url 'article' 'instalace' %}">instalaci</a>.
-              </p>
-            </div>
+
+  <main class="container my-5">
+    <section id="articles" class="row">
+      <div class="col-md-4 mb-4">
+        <div class="card shadow-sm">
+          <img src="{% static 'images/logo-1.webp' %}" class="card-img-top" alt="Introduction to Statistics">
+          <div class="card-body">
+            <h5 class="card-title">Úvod do statistiky</h5>
+            <p class="card-text">Tato sekce zatím obsahuje pouze článek o <a href="{% url 'article' 'rozptyl' %}">rozptylu</a>.
+            </p>
+            <a href="{% url 'section' 'uvod' %}" class="btn btn-primary">Prozkoumat</a>
           </div>
         </div>
       </div>
-    </div>
-  </section>
-  <div class="py-5 bg-light">
-    <div class="container px-5 my-5">
-      <div class="row gx-5 justify-content-center">
-        <div class="col-lg-10 col-xl-7">
-          <div class="text-center">
-            <div class="fs-4 mb-4 fst-italic">"The rising reliance on data and the need for high-level analysis in many
-              industries means that statistics majors are increasingly in demand in every sector."
-            </div>
-            <div class="d-flex align-items-center justify-content-center">
-              <div class="fw-bold">
-                Indeed.com Editorial Team
-              </div>
-            </div>
+      <div class="col-md-4 mb-4">
+        <div class="card shadow-sm">
+          <img src="{% static 'images/logo-2.webp' %}" class="card-img-top" alt="Probability Concepts">
+          <div class="card-body">
+            <h5 class="card-title">Úvod do testování hypotéz</h5>
+            <p class="card-text">Základní princip statistických testů je vysvětlen na příkladě
+              <a href="{% url 'article' 'z-test' %}">z-testu</a>,
+              můžete si zde přečíst i o
+              <a href="{% url 'article' 'chyby-pri-testovani' %}">chybách při testování</a></p>
+            <a href="{% url 'section' 'testovani-hypotez' %}" class="btn btn-primary">Prozkoumat</a>
           </div>
         </div>
       </div>
-    </div>
-  </div>
+      <div class="col-md-4 mb-4">
+        <div class="card shadow-sm">
+          <img src="{% static 'images/logo-3.webp' %}" class="card-img-top" alt="Data Visualization">
+          <div class="card-body">
+            <h5 class="card-title">Dvouvýběrové testy</h5>
+            <p class="card-text">Zde jsou články o dvouvýběrových testech na střední hodnotu
+              (<a href="{% url 'article' 't-test-parovy' %}">párový t-test</a>,
+              <a href="{% url 'article' 't-test-dvouvyberovy' %}">dvouvýběrový t-test</a>,
+              <a href="{% url 'article' 'welchuv-test-dvouvyberovy' %}">Welchův t-test</a>).</p>
+            <a href="{% url 'section' 'dvouvyberove-testy' %}" class="btn btn-primary">Prozkoumat</a>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4 mb-4">
+        <div class="card shadow-sm">
+          <img src="https://via.placeholder.com/350" class="card-img-top" alt="Data Visualization">
+          <div class="card-body">
+            <h5 class="card-title">DSGE modely</h5>
+            <p class="card-text">V této části webu najdete články o
+              <a href="{% url 'article' 'metodologie-moderni-ekonomie' %}"> metodologii moderní ekonomie</a>,
+              <a href="{% url 'article' 'zakladni-myslenka-dsge' %}">DSGE modelech</a> a
+              <a href="{% url 'article' 'lucasova-kritika' %}">Lucasově kritice</a>.
+            </p>
+            <a href="{% url 'section' 'dsge-modely' %}" class="btn btn-primary">Prozkoumat</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
 {% endblock %}

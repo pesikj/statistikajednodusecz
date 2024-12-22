@@ -1,3 +1,94 @@
-a:link {
-  text-decoration: none;
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f8f9fa;
+}
+
+.hero {
+    background: linear-gradient(to right, #007bff, #00d4ff);
+    color: white;
+    text-align: center;
+    padding: 60px 20px;
+}
+
+.hero h1 {
+    font-size: 2.5rem;
+}
+
+.hero p {
+    font-size: 1.2rem;
+}
+
+.card img {
+    height: 200px;
+    object-fit: cover;
+}
+
+footer {
+    background-color: #007bff;
+    color: white;
+    padding: 10px 0;
+    text-align: center;
+}
+
+footer a {
+    color: white;
+    text-decoration: none;
+}
+
+footer a:hover {
+    text-decoration: underline;
+}
+
+.header-small {
+    background: linear-gradient(to right, #007bff, #00d4ff);
+    color: white;
+    text-align: center;
+    padding: 20px 10px;
+}
+
+.header-small h1 {
+    font-size: 1.8rem;
+}
+
+.header-small a {
+    color: white;
+    text-decoration: none;
+}
+
+h1 a {
+    color: white;
+    text-decoration: none;
+}
+
+.article-content {
+    padding: 20px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.article-sidebar {
+    padding: 20px;
+    background: #f1f1f1;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+}
+
+.article-list {
+    padding: 20px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+
+.article-list h2 {
+    font-size: 1.5rem;
+    color: #007bff;
+}
+
+.article-list p {
+    font-size: 1rem;
+    color: #333;
 }

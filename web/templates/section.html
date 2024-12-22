@@ -4,30 +4,17 @@
 {% latexify context_arg parse_math=True %}
 {% load static %}
 {% block content %}
-  <section class="py-5">
-    <div class="container px-5 my-5">
-      <div class="row gx-5">
-        <div class="col-lg-9">
-          <h1 class="fw-bolder mb-1">{{ object.title }}</h1>
+
+  {% include "partials/small_header.html" %}
+
+  <main class="container my-5">
+    <section>
+      <h2>{{ object.title }}</h2>
+        <ul>
           {% for article in object.article_set.all %}
             {% include "partials/article_link.html" with article=article %}
           {% endfor %}
-        </div>
-        <div class="col-lg-3">
-          <h6>Další sekce</h6>
-          <div class="d-flex align-items-center mb-4">
-            <ul class="nav flex-column">
-              {% for section in other_sections %}
-                <li class="nav-item">
-                  <a href="{% url 'section' section.slug %}" class="nav-link">
-                    {{ section.title }}
-                  </a>
-                </li>
-              {% endfor %}
-            </ul>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
+        </ul>
+    </section>
+  </main>
 {% endblock %}

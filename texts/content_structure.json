@@ -1,0 +1,178 @@
+[
+  {
+    "section_slug": "dsge-modely",
+    "section_title": "DSGE modely",
+    "section_articles": [
+      {
+        "file_name": "metodologie_ekonomie.md",
+        "title": "Metodologie moderní ekonomie",
+        "slug": "metodologie-moderni-ekonomie"
+      },
+      {
+        "file_name": "myslenka_dsge_modelu.md",
+        "title": "Základní myšlenka DSGE modelů",
+        "slug": "zakladni-myslenka-dsge"
+      },
+      {
+        "file_name": "lucasova_kritika.md",
+        "title": "DSGE modely a Lucasova kritika",
+        "slug": "lucasova-kritika"
+      }
+    ]
+  },
+  {
+    "section_slug": "jednovyberove-testy",
+    "section_title": "Jednovýběrové testy",
+    "section_articles": [
+      {
+        "file_name": "z_test.md",
+        "title": "K čemu slouží z-test",
+        "slug": "z-test"
+      },
+      {
+        "file_name": "z_test_excel.md",
+        "title": "z-test v Excelu",
+        "slug": "z-test-excel"
+      },
+      {
+        "file_name": "z_test_funkce.md",
+        "title": "Funkce Z.TEST v Excelu",
+        "slug": "z-test-excel-funkce"
+      },
+      {
+        "file_name": "z_test_levostranny.md",
+        "title": "Levostranný z-test",
+        "slug": "z-test-levostranny"
+      },
+      {
+        "file_name": "z_test_pravostranny.md",
+        "title": "Pravostranný z-test",
+        "slug": "z-test-pravostranny"
+      },
+      {
+        "file_name": "t_test.md",
+        "title": "t-test",
+        "slug": "t-test"
+      },
+      {
+        "file_name": "t_test_levostranny.md",
+        "title": "Levostranný t-test",
+        "slug": "t-test-levostranny"
+      },
+      {
+        "file_name": "t_test_pravostranny.md",
+        "title": "Pravostranný t-test",
+        "slug": "t-test-pravostranny"
+      },
+      {
+        "file_name": "z_t_test_porovnani.md",
+        "title": "Porovnání z-testu a t-testu",
+        "slug": "z-t-test-porovnani"
+      },
+      {
+        "file_name": "chi_kvadrat_test_rozptyl_pravostranny.md",
+        "title": "Jednovýběrový test na rozptyl",
+        "slug": "chi-kvadrat-test-rozptyl"
+      },
+      {
+        "file_name": "chi_kvadrat_test_rozptyl_levostranny.md",
+        "title": "Levostranný jednovýběrový test na rozptyl",
+        "slug": "chi-kvadrat-test-rozptyl-levostranny"
+      }
+    ]
+  },
+  {
+    "section_slug": "testovani-hypotez",
+    "section_title": "Testování hypotéz",
+    "section_articles": [
+      {
+        "file_name": "chyby_pri_testovani.md",
+        "title": "Chyby při testování",
+        "slug": "chyby-pri-testovani"
+      },
+      {
+        "file_name": "jak_vznikaji_chyby.md",
+        "title": "Jak vznikají chyby",
+        "slug": "jak-vznikaji-chyby"
+      }
+    ]
+  },
+  {
+    "section_slug": "dvouvyberove-testy",
+    "section_title": "Dvouvýběrové testy",
+    "section_articles": [
+      {
+        "file_name": "dvouvyberovy_test_vyber.md",
+        "title": "Výběr dvouvýběrového testu",
+        "slug": "vyber-dvouvyberoveho-testu"
+      },
+      {
+        "file_name": "t_test_parovy.md",
+        "title": "Párový t-test",
+        "slug": "t-test-parovy"
+      },
+      {
+        "file_name": "t_test_parovy_pravostranny.md",
+        "title": "Párový provostranný t-test",
+        "slug": "t-test-parovy-pravostranny"
+      },
+      {
+        "file_name": "t_test_parovy_oboustranny.md",
+        "title": "Párový oboustranný t-test",
+        "slug": "t-test-parovy-oboustranny"
+      },
+      {
+        "file_name": "t_test_dvouvyberovy.md",
+        "title": "Dvouvýběrový t-test",
+        "slug": "t-test-dvouvyberovy"
+      },
+      {
+        "file_name": "t_test_dvouvyberovy_pravostranny.md",
+        "title": "Dvouvýběrový pravostranný t-test",
+        "slug": "t-test-dvouvyberovy-pravostranny"
+      },
+      {
+        "file_name": "t_test_dvouvyberovy_oboustranny.md",
+        "title": "Dvouvýběrový oboustranný t-test",
+        "slug": "t-test-dvouvyberovy-oboustranny"
+      },
+      {
+        "file_name": "welchuv_test.md",
+        "title": "Welchův t-test",
+        "slug": "welchuv-test-dvouvyberovy"
+      },
+      {
+        "file_name": "welchuv_test_pravostranny.md",
+        "title": "Welchův pravostranný t-test",
+        "slug": "welchuv-test-pravostranny"
+      },
+      {
+        "file_name": "welchuv_test_oboustranny.md",
+        "title": "Welchův oboustranný t-test",
+        "slug": "welchuv-test-oboustranny"
+      }
+    ]
+  },
+  {
+    "section_slug": "uvod",
+    "section_title": "Úvod do statistiky",
+    "section_articles": [
+      {
+        "file_name": "rozptyl.md",
+        "title": "Rozptyl",
+        "slug": "rozptyl"
+      }
+    ]
+  },
+  {
+    "section_slug": "pokrocila-temata",
+    "section_title": "Pokročilá témata",
+    "section_articles": [
+      {
+        "file_name": "rozptyl_podruhe.md",
+        "title": "Rozptyl podruhé",
+        "slug": "rozptyl-podruhe"
+      }
+    ]
+  }
+]
