@@ -62,5 +62,9 @@ RUN chmod +x entrypoint.prod.sh
 # change to the app user
 USER app
 
+RUN python3 manage.py collectstatic
+RUN python3 manage.py migrate
+RUN python3 manage.py load_content
+
 # run entrypoint.prod.sh
 ENTRYPOINT ["/home/app/web/entrypoint.prod.sh"]
