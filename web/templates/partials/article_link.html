@@ -1,10 +1,4 @@
-<div>
-  <a href="{% url 'article' article.slug %}" style="color: black;">
-    <h3 class="mb-2">
-      {{ article.title }}
-    </h3>
-  </a>
+<div class="article-list">
+  <h2><a href="{% url 'article' article.slug %}">{{ article.title }}</a></h2>
+  <p>{{ article.content_preview | safe }}</p>
 </div>
-<p>
-  {{ article.content_preview | safe }}
-</p>

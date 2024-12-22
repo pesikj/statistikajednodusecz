@@ -1,5 +1,4 @@
-from django.conf.urls import url
-from django.urls import path
+from django.urls import path, re_path
 from django.conf import settings
 from django.conf.urls.static import static
 
@@ -13,5 +12,5 @@ urlpatterns = [
     path('all-articles/', views.AllArticlesView.as_view(), name='all_articles'),
     # Temporary link because of links from old version
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) \
-              + [url(r'^(.*)$', views.IndexView.as_view(), name='default'), ]
+              + [re_path(r'^(.*)$', views.IndexView.as_view(), name='default'), ]
 

@@ -9,7 +9,7 @@ import os
 from shutil import copyfile
 
 
-TEXT_ROOT = ("texts/", "texts2/")
+TEXT_ROOT = ("texts/", )
 
 class Command(BaseCommand):
     help = 'Closes the specified poll for voting'
