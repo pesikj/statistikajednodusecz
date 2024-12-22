@@ -16,9 +16,15 @@ ENV DEBIAN_FRONTEND noninteractive
 # create the app user
 RUN useradd app
 
-# install psycopg2 dependencies
-RUN apt-get update --fix-missing
-RUN apt-get install -y python3 python3-pip ncat
+# install system dependencies
+RUN apt-get update --fix-missing && \
+    apt-get install -y python3 python3-pip python3-venv ncat git-all && \
+    apt-get clean
+
+# set up a virtual environment
+ENV VENV_PATH=/home/app/venv
+RUN python3 -m venv $VENV_PATH
+ENV PATH="$VENV_PATH/bin:$PATH"
 
 # lint
 COPY --chown=app:app . .
