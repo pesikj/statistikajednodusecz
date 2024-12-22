@@ -3,7 +3,7 @@
 ###########
 
 # pull official base image
-FROM ubuntu:20.04
+FROM ubuntu:24.04
 
 # set work directory
 WORKDIR /usr/src/app
