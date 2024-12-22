@@ -18,7 +18,7 @@ RUN useradd app
 
 # install psycopg2 dependencies
 RUN apt-get update --fix-missing
-RUN apt-get install -y python3 python3-pip netcat
+RUN apt-get install -y python3 python3-pip ncat
 
 # lint
 COPY --chown=app:app . .
