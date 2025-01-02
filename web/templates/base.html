@@ -11,11 +11,7 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
   <!-- Global site tag (gtag.js) - Google Analytics -->
   <link href="{% static 'css/statistika_jednoduse.css' %}" rel="stylesheet"/>
-  {% if not "localhost" in request.get_host and not "127.0.0.1" in request.get_host %}
-    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-153169092-1"></script>
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1393582100059105"
-     crossorigin="anonymous"></script>
-  {% endif %}
+  <script src="https://ssp.seznam.cz/static/js/ssp.js"></script>
   <script>
       window.dataLayer = window.dataLayer || [];
 
@@ -36,6 +32,7 @@
 {% endblock %}
 <footer>
   <p>&copy; <a href="{% url 'index' %}">2024 StatistikaJednoduše.cz</a></p>
+  <p>Jiří Pešík, IČO O08831483, Manětínská 1493/5, 323 00, Plzeň - Bolevec, info@statistikajednoduse.cz</p>
 </footer>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>

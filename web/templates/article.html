@@ -24,8 +24,19 @@
               <li><a href="{% url 'article' article.slug %}">{{ article.title }}</a></li>
             {% endfor %}
           </ul>
+          <div id="ssp-zone-2"></div>
         </aside>
       </div>
     </div>
   </main>
+
+  <script>
+      sssp.getAds([
+          {
+              "zoneId": 2,
+              "id": "ssp-zone-2",
+              "width": 300
+          }
+      ]);
+  </script>
 {% endblock %}

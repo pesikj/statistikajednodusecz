@@ -1,1 +1,5 @@
-google.com, pub-1393582100059105, DIRECT, f08c47fec0942fa0
+appnexus.com, 6974, RESELLER, f5ab79cb980f11d1
+pubmatic.com, 49307, RESELLER, 5d62403b186f2ace
+pubmatic.com, 159961, RESELLER, 5d62403b186f2ace
+adform.com, 2950, RESELLER, 9f5210a2f0999e32
+adform.com, 2700, RESELLER, 9f5210a2f0999e32

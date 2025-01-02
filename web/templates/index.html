@@ -48,7 +48,7 @@
       </div>
       <div class="col-md-4 mb-4">
         <div class="card shadow-sm">
-          <img src="https://via.placeholder.com/350" class="card-img-top" alt="Data Visualization">
+          <img src="{% static 'images/logo-4.webp' %}" class="card-img-top" alt="Data Visualization">
           <div class="card-body">
             <h5 class="card-title">DSGE modely</h5>
             <p class="card-text">V této části webu najdete články o
@@ -61,5 +61,14 @@
         </div>
       </div>
     </section>
+    <div id="ssp-zone-1"></div>
   </main>
+    <script>
+      sssp.getAds([
+          {
+              "zoneId": 1,
+              "id": "ssp-zone-1"
+          }
+      ]);
+  </script>
 {% endblock %}
