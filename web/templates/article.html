@@ -24,7 +24,7 @@
               <li><a href="{% url 'article' article.slug %}">{{ article.title }}</a></li>
             {% endfor %}
           </ul>
-          <div id="ssp-zone-2"></div>
+          <div id="ssp-zone-186151"></div>
         </aside>
       </div>
     </div>
@@ -33,9 +33,10 @@
   <script>
       sssp.getAds([
           {
-              "zoneId": 2,
-              "id": "ssp-zone-2",
-              "width": 300
+              "zoneId": 186151,			/* unikátní identifikátor reklamní zóny */
+              "id": "ssp-zone-186151",	/* ID elementu, do kterého se vypisuje reklama */
+              "width": 300,	/* maximální šířka reklamy v zóně */
+              "height": 600	/* maximální výška reklamy v zóně */
           }
       ]);
   </script>
