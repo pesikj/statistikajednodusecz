@@ -14,7 +14,7 @@ pandas==2.2.3
 scipy==1.15.1
 statsmodels==0.14.4
 matplotlib==3.10.0
-numpy==2.2.2
+numpy==2.2.3
 colour==0.1.5
 python-dotenv==1.0.1
 
